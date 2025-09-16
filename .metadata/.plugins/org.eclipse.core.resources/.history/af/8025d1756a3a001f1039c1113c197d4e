@@ -1,0 +1,21 @@
+/*
+ * dc_motor.c
+ *
+ *  Created on: Jul 4, 2024
+ *      Author: dell
+ */
+#include "dc_motor.h"
+#include "gpio.h"
+
+void DcMotor_init()
+{
+	GPIO_setupPinDirection(PORTB_ID,PIN0_ID,PIN_OUTPUT);
+	GPIO_setupPinDirection(PORTB_ID,PIN1_ID,PIN_OUTPUT);
+	GPIO_writePin(PORTB_ID,PIN0_ID,LOGIC_LOW);
+	GPIO_writePin(PORTB_ID,PIN1_ID,LOGIC_LOW);
+}
+void DcMotor_Rotate(DcMotor_State state,uint8 speed)
+{
+
+}
+

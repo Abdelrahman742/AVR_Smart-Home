@@ -1,0 +1,72 @@
+/*
+ * Fan.c
+ *
+ *  Created on: Jul 4, 2024
+ *      Author: dell
+ */
+#include "adc.h"
+#include "lcd.h"
+#include "lm35_sensor.h"
+#include "dc_motor.h"
+#include <util/delay.h>
+
+int main()
+{
+	uint8 temp;
+	ADC_ConfigType ADC_Configurations = {F_CPU_8,Internal};
+	LCD_init();
+	ADC_init(&ADC_Configurations);
+	DcMotor_init();
+
+	LCD_displayString("Fan is ");
+	_delay_ms(500);
+	LCD_moveCursor(1,0);
+	LCD_displayString("Temp =    C");
+	_delay_ms(500);
+
+	while(1)
+	{
+		temp=LM35_getTemperature();
+		if(temp<30)
+		{
+			LCD_moveCursor(0,8);
+			LCD_displayString("OFF");
+			DcMotor_Rotate(ST,0);
+			LCD_moveCursor(1,7);
+			LCD_intgerToString(temp);
+		}
+		else if(temp>=30 && temp<=60)
+		{
+			LCD_moveCursor(0,8);
+			LCD_displayString("ON");
+			DcMotor_Rotate(CW,25);
+			LCD_moveCursor(1,7);
+			LCD_intgerToString(temp);
+		}
+		else if(temp>=60 && temp<=90)
+		{
+			LCD_moveCursor(0,8);
+			LCD_displayString("ON");
+			DcMotor_Rotate(CW,50);
+			LCD_moveCursor(1,7);
+			LCD_intgerToString(temp);
+		}
+		else if(temp>=90 && temp<=120)
+		{
+			LCD_moveCursor(0,8);
+			LCD_displayString("ON");
+			DcMotor_Rotate(CW,75);
+			LCD_moveCursor(1,7);
+			LCD_intgerToString(temp);
+		}
+		else
+		{
+			LCD_moveCursor(0,8);
+			LCD_displayString("ON");
+			DcMotor_Rotate(CW,100);
+			LCD_moveCursor(1,7);
+			LCD_intgerToString(temp);
+		}
+	}
+}
+
